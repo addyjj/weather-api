@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather.Core", "Weather.Core\Weather.Core.csproj", "{27C6FC9A-F1D8-4900-8AE6-F4D2C5AD0CB2}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Weather.Sql", "Weather.Sql\Weather.Sql.sqlproj", "{52B7FD31-DBBB-449D-8925-C7364A8A71CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather.Infrastructure", "Weather.Infrastructure\Weather.Infrastructure.csproj", "{E4D60199-3EF7-438E-9122-D1C43F09A0E2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather.Console", "Weather.Console\Weather.Console.csproj", "{7777D6F2-1C79-42ED-93FD-70A992593DBD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5B35135F-461A-40CE-A409-6E8AFD686C28}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27C6FC9A-F1D8-4900-8AE6-F4D2C5AD0CB2}.Debug|x64.ActiveCfg = Debug|x64
+		{27C6FC9A-F1D8-4900-8AE6-F4D2C5AD0CB2}.Debug|x64.Build.0 = Debug|x64
+		{27C6FC9A-F1D8-4900-8AE6-F4D2C5AD0CB2}.Release|x64.ActiveCfg = Release|x64
+		{27C6FC9A-F1D8-4900-8AE6-F4D2C5AD0CB2}.Release|x64.Build.0 = Release|x64
+		{52B7FD31-DBBB-449D-8925-C7364A8A71CF}.Debug|x64.ActiveCfg = Debug|x64
+		{52B7FD31-DBBB-449D-8925-C7364A8A71CF}.Debug|x64.Build.0 = Debug|x64
+		{52B7FD31-DBBB-449D-8925-C7364A8A71CF}.Debug|x64.Deploy.0 = Debug|x64
+		{52B7FD31-DBBB-449D-8925-C7364A8A71CF}.Release|x64.ActiveCfg = Release|x64
+		{52B7FD31-DBBB-449D-8925-C7364A8A71CF}.Release|x64.Build.0 = Release|x64
+		{52B7FD31-DBBB-449D-8925-C7364A8A71CF}.Release|x64.Deploy.0 = Release|x64
+		{E4D60199-3EF7-438E-9122-D1C43F09A0E2}.Debug|x64.ActiveCfg = Debug|x64
+		{E4D60199-3EF7-438E-9122-D1C43F09A0E2}.Debug|x64.Build.0 = Debug|x64
+		{E4D60199-3EF7-438E-9122-D1C43F09A0E2}.Release|x64.ActiveCfg = Release|x64
+		{E4D60199-3EF7-438E-9122-D1C43F09A0E2}.Release|x64.Build.0 = Release|x64
+		{7777D6F2-1C79-42ED-93FD-70A992593DBD}.Debug|x64.ActiveCfg = Debug|x64
+		{7777D6F2-1C79-42ED-93FD-70A992593DBD}.Debug|x64.Build.0 = Debug|x64
+		{7777D6F2-1C79-42ED-93FD-70A992593DBD}.Release|x64.ActiveCfg = Release|x64
+		{7777D6F2-1C79-42ED-93FD-70A992593DBD}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8CF35829-CCB2-485D-896D-C2013A6C9177}
+	EndGlobalSection
+EndGlobal
