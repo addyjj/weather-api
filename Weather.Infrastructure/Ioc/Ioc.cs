@@ -11,18 +11,6 @@ namespace Weather.Infrastructure.Ioc;
 
 public class Ioc
 {
-    private static void BuildLogger(ILoggingBuilder builder)
-    {
-        builder.ClearProviders();
-        builder.SetMinimumLevel(LogLevel.Debug);
-        builder.AddSimpleConsole(options =>
-        {
-            options.SingleLine = true;
-            options.IncludeScopes = false;
-            options.TimestampFormat = "hh:mm:ss ";
-        });
-    }
-
     public static IContainer CreateContainer(AppConfig config)
     {
         var builder = new ContainerBuilder();
@@ -35,16 +23,8 @@ public class Ioc
         {
             BaseAddress = config.AmbientWeatherApiUrl
         };
-        builder.RegisterInstance(httpClient).As<HttpClient>().SingleInstance();
 
-        // Register Logging
-        builder.Register(handler => LoggerFactory.Create(BuildLogger))
-                .As<ILoggerFactory>()
-                .SingleInstance()
-                .AutoActivate();
-        builder.RegisterGeneric(typeof(Logger<>))
-            .As(typeof(ILogger<>))
-            .SingleInstance();
+        builder.RegisterInstance(httpClient).As<HttpClient>().SingleInstance();
 
         // Context
         builder.RegisterType<WeatherContext>().AsSelf();

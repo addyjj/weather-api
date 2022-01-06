@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using Weather.Core.Domain;
+﻿using Weather.Core.Domain;
 using Weather.Core.Interfaces;
+using Serilog;
 
 namespace Weather.Core.Services
 {
@@ -8,17 +8,15 @@ namespace Weather.Core.Services
     {
         private readonly IAmbientWeatherRepository ambientWeatherRepository;
         private readonly IWeatherDataRepository weatherDataRepository;
-        private readonly ILogger logger;
 
-        public WeatherService(IAmbientWeatherRepository ambientWeatherRepository, IWeatherDataRepository weatherDataRepository, ILogger<WeatherService> logger)
+        public WeatherService(IAmbientWeatherRepository ambientWeatherRepository, IWeatherDataRepository weatherDataRepository)
         {
             this.ambientWeatherRepository = ambientWeatherRepository;
             this.weatherDataRepository = weatherDataRepository;
-            this.logger = logger;
         }
         public async Task ImportAsync(string macAddress)
         {
-            logger.LogInformation("Import: Importing weather data.");
+            Log.Information("Import: Importing weather data.");
 
             var toAdd = new List<DeviceDataItem>();
 
@@ -29,8 +27,8 @@ namespace Weather.Core.Services
             {
                 var originalMinDate = minDate;
 
-                logger.LogDebug("Import: Getting weather data from Ambient Weather.");
-                var deviceData = await ambientWeatherRepository.GetDeviceDataAsync(macAddress, endDate: minDate, limit: 100);
+                Log.Debug("Import: Getting weather data from Ambient Weather.");
+                var deviceData = await ambientWeatherRepository.GetDeviceDataAsync(macAddress, endDate: minDate, limit: 10);
                 minDate = deviceData.Min(x => x.DateUtc) - 1;
 
                 if (deviceData.Length == 0 || originalMinDate == minDate)
@@ -46,11 +44,11 @@ namespace Weather.Core.Services
 
             } while (minDate > lastSavedDate);
 
-            logger.LogDebug("Import: Adding {count} new records.", toAdd.Count);
+            Log.Debug("Import: Adding {count} new records.", toAdd.Count);
 
             await weatherDataRepository.AddDeviceDataAsync(toAdd);
 
-            logger.LogInformation("Import: Successfully imported {count} new records.", toAdd.Count);
+            Log.Information("Import: Successfully imported {count} new records.", toAdd.Count);
         }
     }
 }
