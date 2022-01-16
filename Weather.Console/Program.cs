@@ -17,14 +17,7 @@ configBuilder.AddUserSecrets<Program>();
 var config = configBuilder.Build();
 
 // Create typed config
-var appConfig = new AppConfig
-{
-    AmbientApiKey = config["Ambient:ApiKey"],
-    AmbientApplicationKey = config["Ambient:ApplicationKey"],
-    AmbientWeatherApiUrl = new Uri(config["Ambient:ApiUrl"]),
-    AmbientDeviceMacAddress = config["Ambient:DeviceMacAddress"],
-    SqlConnectionString = config.GetConnectionString("sql"),
-};
+var appConfig = new AppConfig(config);
 
 // Init logging
 Log.Logger = new LoggerConfiguration()
