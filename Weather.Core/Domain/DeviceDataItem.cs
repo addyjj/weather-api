@@ -44,7 +44,7 @@ namespace Weather.Core.Domain
         /// Outdoor Battery - OK/Low indication, Int, 1=OK, 0=Low (Meteobridge Users 1=Low, 0=OK)
         /// </summary>
         [JsonPropertyName("battout")]
-        public int BattOut { get; set; }
+        public bool BattOut { get; set; }
 
         /// <summary>
         /// Outdoor Humidity, 0-100%
@@ -128,7 +128,7 @@ namespace Weather.Core.Domain
         /// CO2 battery - 1=OK, 0=Low
         /// </summary>
         [JsonPropertyName("batt_co2")]
-        public int BattCo2 { get; set; }
+        public bool BattCo2 { get; set; }
 
         /// <summary>
         /// if < 50ºF => Wind Chill, if > 68ºF => Heat Index (calculated on server)

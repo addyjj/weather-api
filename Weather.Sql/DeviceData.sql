@@ -22,7 +22,7 @@
 	[Uv] INT NOT NULL,
 	[BattCo2] BIT NOT NULL,
 	[FeelsLike] FLOAT NOT NULL,
-	[DewPoint] INT NOT NULL,
+	[DewPoint] FLOAT NOT NULL,
 	[FeelsLikeIn] FLOAT NOT NULL,
 	[DewPointIn] FLOAT NOT NULL,
 	[Loc] VARCHAR(50) NOT NULL,
