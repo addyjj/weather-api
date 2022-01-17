@@ -9,14 +9,20 @@ using Weather.Infrastructure.Entity.Contexts;
 using Weather.Infrastructure.Rest;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddUserSecrets<Program>();
+
+// configuration
+builder
+    .Configuration
+    .AddUserSecrets<Program>(true)
+    .AddEnvironmentVariables();
 
 // Add services to the container.
 builder.Services
     .AddControllers()
-    .AddOData(opt => {
+    .AddOData(opt =>
+    {
         opt.AddRouteComponents("odata", GetEdmModel());
-        opt.Select().Count().Filter().SetMaxTop(100);
+        opt.Select().Count().Filter().OrderBy().SetMaxTop(100);
     });
 
 static IEdmModel GetEdmModel()
