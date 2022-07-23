@@ -40,7 +40,7 @@ namespace Weather.Core.Services
                 var filterd = deviceData.Where(x => x.DateUtc > lastSavedDate);
                 toAdd.AddRange(filterd);
 
-                Thread.Sleep(2000);
+                Thread.Sleep(4000);
 
             } while (minDate > lastSavedDate);
 
