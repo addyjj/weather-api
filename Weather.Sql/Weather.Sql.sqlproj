@@ -60,7 +60,4 @@
   <ItemGroup>
     <Build Include="DeviceData.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Weather.Sql.publish.xml" />
-  </ItemGroup>
 </Project>

@@ -25,7 +25,7 @@
 	[DewPoint] FLOAT NOT NULL,
 	[FeelsLikeIn] FLOAT NOT NULL,
 	[DewPointIn] FLOAT NOT NULL,
-	[Loc] VARCHAR(50) NOT NULL,
+	[Loc] VARCHAR(100) NOT NULL,
 	[Date] DATETIME NOT NULL, 
     CONSTRAINT [PK_DeviceData] PRIMARY KEY ([DateUtc]),
 )
