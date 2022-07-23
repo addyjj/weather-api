@@ -44,6 +44,7 @@ namespace Weather.Core.Domain
         /// Outdoor Battery - OK/Low indication, Int, 1=OK, 0=Low (Meteobridge Users 1=Low, 0=OK)
         /// </summary>
         [JsonPropertyName("battout")]
+        [JsonConverter(typeof(BoolConverter))]
         public bool BattOut { get; set; }
 
         /// <summary>
@@ -128,6 +129,7 @@ namespace Weather.Core.Domain
         /// CO2 battery - 1=OK, 0=Low
         /// </summary>
         [JsonPropertyName("batt_co2")]
+        [JsonConverter(typeof(BoolConverter))]
         public bool BattCo2 { get; set; }
 
         /// <summary>
