@@ -38,10 +38,12 @@ try
 {
     // import data
     await service.ImportAsync(appConfig.AmbientDeviceMacAddress);
+    return 0;
 }
 catch (Exception ex)
 {
     Log.Error(ex, ex.Message);
+    return 1;
 }
 finally
 {
