@@ -21,6 +21,6 @@ RUN apt-get update && apt-get -y install cron
 WORKDIR /app
 COPY --from=publish /app/publish .
 RUN ls /etc/cron.d
-RUN echo "*/15 * * * * dotnet /app/import.dll > /app/log.txt" >> /etc/cron.d/weather-cron
+RUN echo "*/15 * * * * dotnet /app/import.dll" >> /etc/cron.d/weather-cron
 RUN chmod 0644 /etc/cron.d/weather-cron
 ENTRYPOINT ["cron", "-f"]
