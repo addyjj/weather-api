@@ -8,9 +8,6 @@ trigger:
 resources:
 - repo: self
 
-variables:
-  tag: '$(Build.BuildId)'
-
 stages:
 - stage: Build
   displayName: Build image
@@ -26,5 +23,4 @@ stages:
         repository: 'addyjj/weather-import'
         command: 'buildAndPush'
         Dockerfile: 'Weather.Console/Dockerfile'
-        buildContext: "."
-        tags: '$(tag)'
+        buildContext: "."        
