@@ -6,11 +6,11 @@ namespace Weather.Core.Domain
     {
         public AppConfig(IConfiguration config)
         {
-            AmbientApiKey = config["Ambient:ApiKey"];
-            AmbientApplicationKey = config["Ambient:ApplicationKey"];
-            AmbientWeatherApiUrl = new Uri(config["Ambient:ApiUrl"]);
-            AmbientDeviceMacAddress = config["Ambient:DeviceMacAddress"];
-            SqlConnectionString = config.GetConnectionString("sql");
+            AmbientApiKey = config["Ambient:ApiKey"] ?? "";
+            AmbientApplicationKey = config["Ambient:ApplicationKey"] ?? "";
+            AmbientWeatherApiUrl = new Uri(config["Ambient:ApiUrl"] ?? "");
+            AmbientDeviceMacAddress = config["Ambient:DeviceMacAddress"] ?? "";
+            SqlConnectionString = config.GetConnectionString("sql") ?? "";
         }
         public string AmbientApiKey { get; }
         public string AmbientApplicationKey { get; }

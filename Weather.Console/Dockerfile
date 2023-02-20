@@ -20,7 +20,14 @@ FROM base AS final
 RUN apt-get update && apt-get -y install cron
 WORKDIR /app
 COPY --from=publish /app/publish .
-RUN ls /etc/cron.d
+
+# Adding crontab to the appropriate location
 RUN echo "*/15 * * * * dotnet /app/import.dll" >> /etc/cron.d/weather-cron
+
+# Giving permission to crontab file
 RUN chmod 0644 /etc/cron.d/weather-cron
+
+# Running crontab
+RUN crontab /etc/cron.d/weather-cron
+
 ENTRYPOINT ["cron", "-f"]
