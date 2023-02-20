@@ -24,7 +24,7 @@ stages:
       inputs:
         containerRegistry: 'docker.io/addyjj'
         repository: 'addyjj/weather-import'
-        command: 'build'
+        command: 'buildAndPush'
         Dockerfile: 'Weather.Console/Dockerfile'
         buildContext: "."
         tags: '$(tag)'
