@@ -25,5 +25,6 @@ stages:
         containerRegistry: 'docker.io/addyjj'
         repository: 'addyjj/weather-import'
         command: 'build'
-        Dockerfile: '**/Dockerfile'
+        Dockerfile: 'Weather.Console/Dockerfile'
+        buildContext: "."
         tags: '$(tag)'
