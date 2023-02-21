@@ -23,4 +23,5 @@ stages:
         repository: 'addyjj/weather-import'
         command: 'buildAndPush'
         Dockerfile: 'Weather.Console/Dockerfile'
+        tags: "latest"
         buildContext: "."        
