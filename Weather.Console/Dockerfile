@@ -30,4 +30,6 @@ RUN chmod 0644 /etc/cron.d/weather-cron
 # Running crontab
 RUN crontab /etc/cron.d/weather-cron
 
+VOLUME /app/logs
+
 ENTRYPOINT ["cron", "-f"]
