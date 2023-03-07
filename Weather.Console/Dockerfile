@@ -24,8 +24,12 @@ COPY --from=publish /app/publish .
 # Adding crontab to the appropriate location
 RUN echo "*/15 * * * * dotnet /app/import.dll" >> /etc/cron.d/weather-cron
 
-# Giving permission to crontab file
+# Create folders
+RUN mkdir -p /app/logs 
+
+# Set permissions
 RUN chmod 0644 /etc/cron.d/weather-cron
+RUN chmod 0644 /app/logs
 
 # Running crontab
 RUN crontab /etc/cron.d/weather-cron
