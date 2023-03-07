@@ -1,6 +1,5 @@
 ﻿using Weather.Core.Domain;
 using Weather.Core.Interfaces;
-using Serilog;
 
 namespace Weather.Core.Services
 {
@@ -8,15 +7,17 @@ namespace Weather.Core.Services
     {
         private readonly IAmbientWeatherRepository ambientWeatherRepository;
         private readonly IWeatherDataRepository weatherDataRepository;
+        private readonly ILogger logger;
 
-        public WeatherService(IAmbientWeatherRepository ambientWeatherRepository, IWeatherDataRepository weatherDataRepository)
+        public WeatherService(IAmbientWeatherRepository ambientWeatherRepository, IWeatherDataRepository weatherDataRepository, ILogger logger)
         {
             this.ambientWeatherRepository = ambientWeatherRepository;
             this.weatherDataRepository = weatherDataRepository;
+            this.logger = logger;
         }
         public async Task ImportAsync(string macAddress)
         {
-            Log.Information("Import: Importing weather data.");
+            logger.Information("Import: Importing weather data.");
 
             var toAdd = new List<DeviceDataItem>();
 
@@ -27,7 +28,7 @@ namespace Weather.Core.Services
             {
                 var originalMinDate = minDate;
 
-                Log.Debug("Import: Getting weather data from Ambient Weather.");
+                logger.Debug("Import: Getting weather data from Ambient Weather.");
                 var deviceData = await ambientWeatherRepository.GetDeviceDataAsync(macAddress, endDate: minDate, limit: 10);
                 minDate = deviceData.Min(x => x.DateUtc) - 1;
 
@@ -44,11 +45,11 @@ namespace Weather.Core.Services
 
             } while (minDate > lastSavedDate);
 
-            Log.Debug("Import: Adding {count} new records.", toAdd.Count);
+            logger.Debug($"Import: Adding {toAdd.Count} new records.");
 
             await weatherDataRepository.AddDeviceDataAsync(toAdd);
 
-            Log.Information("Import: Successfully imported {count} new records.", toAdd.Count);
+            logger.Information($"Import: Successfully imported {toAdd.Count} new records.");
         }
     }
 }

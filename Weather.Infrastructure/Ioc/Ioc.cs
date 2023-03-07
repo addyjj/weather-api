@@ -1,11 +1,11 @@
 ﻿using Autofac;
-using Microsoft.Extensions.Logging;
 using Weather.Core.Domain;
 using Weather.Core.Interfaces;
 using Weather.Core.Services;
 using Weather.Infrastructure.Entity;
 using Weather.Infrastructure.Entity.Contexts;
 using Weather.Infrastructure.Rest;
+using ILogger = Weather.Core.Interfaces.ILogger;
 
 namespace Weather.Infrastructure.Ioc;
 
@@ -35,6 +35,9 @@ public class Ioc
         // Repositories
         builder.RegisterType<AmbientWeatherRepository>().As<IAmbientWeatherRepository>();
         builder.RegisterType<WeatherDataRepository>().As<IWeatherDataRepository>();
+
+        // Logger
+        builder.RegisterType<Logger>().As<ILogger>();
 
         return builder.Build();
     }

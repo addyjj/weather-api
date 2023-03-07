@@ -3,7 +3,6 @@ using Weather.Core.Domain;
 using Weather.Core.Interfaces;
 using Weather.Infrastructure.Ioc;
 using Microsoft.Extensions.Configuration;
-using Serilog;
 
 // Build IConfiguration
 var configBuilder = new ConfigurationBuilder()
@@ -19,12 +18,6 @@ var config = configBuilder.Build();
 // Create typed config
 var appConfig = new AppConfig(config);
 
-// Init logging
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .WriteTo.Console()
-    .CreateLogger();
-
 // create container
 var container = Ioc.CreateContainer(appConfig);
 
@@ -34,6 +27,9 @@ using var scope = container.BeginLifetimeScope();
 // get weather service
 var service = scope.Resolve<IWeatherService>();
 
+// get logger
+var logger = scope.Resolve<ILogger>();
+
 try
 {
     // import data
@@ -42,10 +38,10 @@ try
 }
 catch (Exception ex)
 {
-    Log.Error(ex, ex.Message);
+    logger.Error(ex.Message, ex);
     return 1;
 }
 finally
 {
-    Log.CloseAndFlush();
+    logger.CloseAndFlush();
 }
