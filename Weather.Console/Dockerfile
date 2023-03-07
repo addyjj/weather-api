@@ -28,8 +28,8 @@ RUN echo "*/15 * * * * dotnet /app/import.dll" >> /etc/cron.d/weather-cron
 RUN mkdir -p /app/logs 
 
 # Set permissions
-RUN chmod 0644 /etc/cron.d/weather-cron
-RUN chmod 0644 /app/logs
+RUN chmod 644 /etc/cron.d/weather-cron
+RUN chmod 666 /app/logs
 
 # Running crontab
 RUN crontab /etc/cron.d/weather-cron
