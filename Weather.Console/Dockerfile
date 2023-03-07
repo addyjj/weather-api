@@ -3,18 +3,12 @@
 FROM mcr.microsoft.com/dotnet/runtime:7.0 AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-COPY ["Weather.Console/Weather.Console.csproj", "Weather.Console/"]
-COPY ["Weather.Core/Weather.Core.csproj", "Weather.Core/"]
-COPY ["Weather.Infrastructure/Weather.Infrastructure.csproj", "Weather.Infrastructure/"]
-RUN dotnet restore "Weather.Console/Weather.Console.csproj"
-COPY . .
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS publish
+COPY . ./src
 WORKDIR "/src/Weather.Console"
-RUN dotnet build "Weather.Console.csproj" -c Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish "Weather.Console.csproj" -c Release -o /app/publish /p:UseAppHost=false
+# Build and Publish
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 RUN apt-get update && apt-get -y install cron
