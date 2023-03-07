@@ -11,11 +11,13 @@ namespace Weather.Core.Domain
             AmbientWeatherApiUrl = new Uri(config["Ambient:ApiUrl"] ?? "");
             AmbientDeviceMacAddress = config["Ambient:DeviceMacAddress"] ?? "";
             SqlConnectionString = config.GetConnectionString("sql") ?? "";
+            LogFilePath = config["Logger:FilePath"] ?? "";
         }
         public string AmbientApiKey { get; }
         public string AmbientApplicationKey { get; }
         public Uri AmbientWeatherApiUrl { get; }
         public string AmbientDeviceMacAddress { get; }
         public string SqlConnectionString { get; }
+        public string LogFilePath { get; }
     }
 }
