@@ -1,24 +1,14 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
-
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
-COPY ["Weather.WebApi/Weather.WebApi.csproj", "Weather.WebApi/"]
-COPY ["Weather.Core/Weather.Core.csproj", "Weather.Core/"]
-COPY ["Weather.Infrastructure/Weather.Infrastructure.csproj", "Weather.Infrastructure/"]
-RUN dotnet restore "Weather.WebApi/Weather.WebApi.csproj"
-COPY . .
+# Build and Publish
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS publish
+COPY . ./src
 WORKDIR "/src/Weather.WebApi"
-RUN dotnet build "Weather.WebApi.csproj" -c Release -o /app/build
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
-FROM build AS publish
-RUN dotnet publish "Weather.WebApi.csproj" -c Release -o /app/publish
-
-FROM base AS final
+# Host
+FROM mcr.microsoft.com/dotnet/runtime:7.0
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+EXPOSE 80
+EXPOSE 443
 ENTRYPOINT ["dotnet", "Weather.WebApi.dll"]

@@ -18,10 +18,20 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
+      displayName: Deploy Import
       inputs:
         containerRegistry: 'docker.io/addyjj'
         repository: 'addyjj/weather-import'
         command: 'buildAndPush'
         Dockerfile: 'Weather.Console/Dockerfile'
         tags: "latest"
-        buildContext: "."        
+        buildContext: "."
+    - task: Docker@2
+      displayName: Deploy Api
+      inputs:
+        containerRegistry: 'docker.io/addyjj'
+        repository: 'addyjj/weather-api'
+        command: 'buildAndPush'
+        Dockerfile: 'Weather.WebApi/Dockerfile'
+        tags: "latest"
+        buildContext: "."

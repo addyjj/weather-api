@@ -12,6 +12,7 @@ namespace Weather.Infrastructure
                 .MinimumLevel.Debug()
                 .WriteTo.Console()
                 .WriteTo.File(path, rollingInterval: RollingInterval.Day)
+                .WriteTo.LocalSyslog()
                 .CreateLogger();
         }
 
