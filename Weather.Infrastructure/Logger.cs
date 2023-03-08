@@ -5,14 +5,13 @@ namespace Weather.Infrastructure
 {
     internal class Logger : ILogger
     {
-        public Logger(string path)
+        public Logger()
         {
             // Init logging
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.Console()
-                .WriteTo.File(path, rollingInterval: RollingInterval.Day)
-                .WriteTo.LocalSyslog()
+                .WriteTo.File("/logs/log.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
         }
 

@@ -37,8 +37,7 @@ public class Ioc
         builder.RegisterType<WeatherDataRepository>().As<IWeatherDataRepository>();
 
         // Logger
-        var logger = new Logger(config.LogFilePath);
-        builder.RegisterInstance(logger).As<ILogger>();
+        builder.RegisterType<Logger>().As<ILogger>();
 
         return builder.Build();
     }
