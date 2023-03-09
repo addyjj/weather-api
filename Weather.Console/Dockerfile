@@ -11,7 +11,13 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Adding crontab to the appropriate location
-RUN echo "*/15 * * * * dotnet /app/import.dll > /proc/1/fd/1 2>/proc/1/fd/2" >> /etc/crontab
+RUN echo "*/15 * * * * dotnet /app/import.dll" >> /etc/cron.d/weather-cron
+
+# Set permissions
+RUN chmod 644 /etc/cron.d/weather-cron
+
+# Running crontab
+RUN crontab /etc/cron.d/weather-cron
 
 VOLUME /logs
 
