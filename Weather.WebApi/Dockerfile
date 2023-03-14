@@ -10,5 +10,4 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 EXPOSE 80
-EXPOSE 443
 ENTRYPOINT ["dotnet", "Weather.WebApi.dll"]
