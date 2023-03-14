@@ -15,7 +15,8 @@ namespace Weather.WebApi.Controllers
         }
 
         [HttpGet]
-        [EnableQuery(PageSize = 10)]
+        [EnableQuery(PageSize = 500)]
+        [ResponseCache(Duration = 60)]
         public IActionResult Get()
         {
             return Ok(context.DeviceData);
