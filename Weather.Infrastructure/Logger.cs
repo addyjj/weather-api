@@ -3,7 +3,7 @@ using ILogger = Weather.Core.Interfaces.ILogger;
 
 namespace Weather.Infrastructure
 {
-    internal class Logger : ILogger
+    public class Logger : ILogger
     {
         public Logger()
         {
