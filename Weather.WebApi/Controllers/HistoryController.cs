@@ -3,23 +3,15 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Weather.Infrastructure.Entity.Contexts;
 
-namespace Weather.WebApi.Controllers
+namespace Weather.WebApi.Controllers;
+
+public class HistoryController(WeatherContext context) : ODataController
 {
-    public class HistoryController : ODataController
+    [HttpGet]
+    [EnableQuery(PageSize = 500)]
+    [ResponseCache(Duration = 60)]
+    public IActionResult Get()
     {
-        private readonly WeatherContext context;
-
-        public HistoryController(WeatherContext context)
-        {
-            this.context = context;
-        }
-
-        [HttpGet]
-        [EnableQuery(PageSize = 500)]
-        [ResponseCache(Duration = 60)]
-        public IActionResult Get()
-        {
-            return Ok(context.DeviceData);
-        }
+        return Ok(context.DeviceData);
     }
 }

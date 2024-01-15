@@ -1,11 +1,10 @@
-﻿namespace Weather.Core.Interfaces
+﻿namespace Weather.Core.Interfaces;
+
+public interface ILogger
 {
-    public interface ILogger
-    {
-        void Information(string message);
-        void Warning(string message);
-        void Error(string message, Exception ex);
-        void Debug(string message);
-        void CloseAndFlush();
-    }
+    void Information(string message);
+    void Warning(string message);
+    void Error(string message, Exception ex);
+    void Debug(string message);
+    void CloseAndFlush();
 }

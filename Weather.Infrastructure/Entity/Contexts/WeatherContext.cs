@@ -2,29 +2,21 @@
 using Weather.Core.Domain;
 using Weather.Infrastructure.Entity.Mappings;
 
-namespace Weather.Infrastructure.Entity.Contexts
+namespace Weather.Infrastructure.Entity.Contexts;
+
+public class WeatherContext(AppConfig config) : DbContext
 {
-    public class WeatherContext: DbContext
+    public required DbSet<DeviceDataItem> DeviceData { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        private readonly AppConfig config;
+        optionsBuilder.UseSqlServer(config.SqlConnectionString);
+    }
 
-        public WeatherContext(AppConfig config)
-        {
-            this.config = config;
-        }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
 
-        public DbSet<DeviceDataItem> DeviceData { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(config.SqlConnectionString);
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfiguration(new DeviceDataMap());
-        }
+        modelBuilder.ApplyConfiguration(new DeviceDataMap());
     }
 }

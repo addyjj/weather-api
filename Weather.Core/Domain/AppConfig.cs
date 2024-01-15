@@ -1,22 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Weather.Core.Domain
+namespace Weather.Core.Domain;
+
+public class AppConfig(IConfiguration config)
 {
-    public class AppConfig
-    {
-        public AppConfig(IConfiguration config)
-        {
-            AmbientApiKey = config["Ambient:ApiKey"] ?? "";
-            AmbientApplicationKey = config["Ambient:ApplicationKey"] ?? "";
-            AmbientWeatherApiUrl = new Uri(config["Ambient:ApiUrl"] ?? "");
-            AmbientDeviceMacAddress = config["Ambient:DeviceMacAddress"] ?? "";
-            SqlConnectionString = config.GetConnectionString("sql") ?? "";
-        }
-        public string AmbientApiKey { get; }
-        public string AmbientApplicationKey { get; }
-        public Uri AmbientWeatherApiUrl { get; }
-        public string AmbientDeviceMacAddress { get; }
-        public string SqlConnectionString { get; }
-        public string LogFilePath { get; }
-    }
+    public string AmbientApiKey { get; } = config["Ambient:ApiKey"] ?? "";
+    public string AmbientApplicationKey { get; } = config["Ambient:ApplicationKey"] ?? "";
+    public Uri AmbientWeatherApiUrl { get; } = new(config["Ambient:ApiUrl"] ?? "");
+    public string AmbientDeviceMacAddress { get; } = config["Ambient:DeviceMacAddress"] ?? "";
+    public string SqlConnectionString { get; } = config.GetConnectionString("sql") ?? "";
 }

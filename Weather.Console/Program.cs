@@ -1,13 +1,13 @@
 ﻿using Autofac;
+using Microsoft.Extensions.Configuration;
 using Weather.Core.Domain;
 using Weather.Core.Interfaces;
 using Weather.Infrastructure.Ioc;
-using Microsoft.Extensions.Configuration;
 
 // Build IConfiguration
 var configBuilder = new ConfigurationBuilder()
-.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-.AddJsonFile("appsettings.json");
+    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+    .AddJsonFile("appsettings.json");
 
 #if DEBUG
 configBuilder.AddUserSecrets<Program>();
@@ -22,7 +22,7 @@ var appConfig = new AppConfig(config);
 var container = Ioc.CreateContainer(appConfig);
 
 // begin Ioc scope
-using var scope = container.BeginLifetimeScope();
+await using var scope = container.BeginLifetimeScope();
 
 // get weather service
 var service = scope.Resolve<IWeatherService>();

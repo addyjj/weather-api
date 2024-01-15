@@ -2,92 +2,84 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
 
-namespace Weather.Infrastructure.Rest
+namespace Weather.Infrastructure.Rest;
+
+public abstract class RestRepository(HttpClient httpClient)
 {
-    public abstract class RestRepository
+    public string BearerToken { get; set; } = "";
+
+    protected async Task<T?> GetAsync<T>(string requestUri)
     {
-        private readonly HttpClient _httpClient;
+        var message = new HttpRequestMessage(HttpMethod.Get, requestUri);
 
-        protected RestRepository(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
+        if (!string.IsNullOrWhiteSpace(BearerToken))
+            message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", BearerToken);
 
-        public string BearerToken { get; set; } = "";
+        var response = await httpClient.SendAsync(message).ConfigureAwait(false);
 
-        protected async Task<T?> GetAsync<T>(string requestUri)
-        {
-            var message = new HttpRequestMessage(HttpMethod.Get, requestUri);
+        if (response.StatusCode == HttpStatusCode.NotFound)
+            return await Task.FromResult(default(T));
 
-            if (!string.IsNullOrWhiteSpace(BearerToken))
-                message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", BearerToken);
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<T>(content);
+    }
 
-            var response = await _httpClient.SendAsync(message).ConfigureAwait(false);
+    protected async Task<T?> PutAsync<T>(string requestUri, object data)
+    {
+        var message = new HttpRequestMessage(HttpMethod.Put, requestUri);
 
-            if (response.StatusCode == HttpStatusCode.NotFound)
-                return await Task.FromResult(default(T));
+        if (!string.IsNullOrWhiteSpace(BearerToken))
+            message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", BearerToken);
 
-            response.EnsureSuccessStatusCode();
-            var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<T>(content);
-        }
+        message.Content = new StringContent(JsonSerializer.Serialize(data));
+        message.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-        protected async Task<T?> PutAsync<T>(string requestUri, object data)
-        {
-            var message = new HttpRequestMessage(HttpMethod.Put, requestUri);
+        var response = await httpClient.SendAsync(message).ConfigureAwait(false);
 
-            if (!string.IsNullOrWhiteSpace(BearerToken))
-                message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", BearerToken);
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<T>(content);
+    }
 
-            message.Content = new StringContent(JsonSerializer.Serialize(data));
-            message.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+    protected async Task<T?> PostAsync<T>(string requestUri, object data)
+    {
+        var message = new HttpRequestMessage(HttpMethod.Post, requestUri);
 
-            var response = await _httpClient.SendAsync(message).ConfigureAwait(false);
+        if (!string.IsNullOrWhiteSpace(BearerToken))
+            message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", BearerToken);
 
-            response.EnsureSuccessStatusCode();
-            var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<T>(content);
-        }
+        message.Content = new StringContent(JsonSerializer.Serialize(data));
+        message.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-        protected async Task<T?> PostAsync<T>(string requestUri, object data)
-        {
-            var message = new HttpRequestMessage(HttpMethod.Post, requestUri);
+        var response = await httpClient.SendAsync(message).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
 
-            if (!string.IsNullOrWhiteSpace(BearerToken))
-                message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", BearerToken);
+        var content = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<T>(content);
+    }
 
-            message.Content = new StringContent(JsonSerializer.Serialize(data));
-            message.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+    protected async Task<T?> DeleteAsync<T>(string requestUri)
+    {
+        var message = new HttpRequestMessage(HttpMethod.Delete, requestUri);
 
-            var response = await _httpClient.SendAsync(message).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
+        if (!string.IsNullOrWhiteSpace(BearerToken))
+            message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", BearerToken);
 
-            var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<T>(content);
-        }
+        var response = await httpClient.SendAsync(message).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
 
-        protected async Task<T?> DeleteAsync<T>(string requestUri)
-        {
-            var message = new HttpRequestMessage(HttpMethod.Delete, requestUri);
+        var content = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<T>(content);
+    }
 
-            if (!string.IsNullOrWhiteSpace(BearerToken))
-                message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", BearerToken);
+    protected async Task<T?> SendAsync<T>(HttpRequestMessage message)
+    {
+        var response = await httpClient.SendAsync(message).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
 
-            var response = await _httpClient.SendAsync(message).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
 
-            var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<T>(content);
-        }
-
-        protected async Task<T?> SendAsync<T>(HttpRequestMessage message)
-        {
-            var response = await _httpClient.SendAsync(message).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
-
-            var content = await response.Content.ReadAsStringAsync();
-
-            return JsonSerializer.Deserialize<T>(content);
-        }
+        return JsonSerializer.Deserialize<T>(content);
     }
 }
