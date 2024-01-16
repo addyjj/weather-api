@@ -1,13 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:14077",
-      "sslPort": 44320
-    }
-  },
   "profiles": {
     "Weather.WebApi": {
       "commandName": "Project",
@@ -18,14 +10,6 @@
       },
       "applicationUrl": "https://localhost:7060;",
       "dotnetRunMessages": true
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
     },
     "Docker": {
       "commandName": "Docker",

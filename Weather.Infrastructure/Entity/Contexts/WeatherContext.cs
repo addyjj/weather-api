@@ -6,7 +6,7 @@ namespace Weather.Infrastructure.Entity.Contexts;
 
 public class WeatherContext(AppConfig config) : DbContext
 {
-    public required DbSet<DeviceDataItem> DeviceData { get; set; }
+    public DbSet<DeviceDataItem>? DeviceData { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
