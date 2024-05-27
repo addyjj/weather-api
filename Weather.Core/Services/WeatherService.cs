@@ -23,7 +23,7 @@ public class WeatherService(
             var originalMinDate = minDate;
 
             logger.Debug("Import: Getting weather data from Ambient Weather.");
-            var deviceData = await ambientWeatherRepository.GetDeviceDataAsync(macAddress, minDate, 10);
+            var deviceData = await ambientWeatherRepository.GetDeviceDataAsync(macAddress, minDate);
             minDate = deviceData.Min(x => x.DateUtc) - 1;
 
             if (deviceData.Length == 0 || originalMinDate == minDate) break;
