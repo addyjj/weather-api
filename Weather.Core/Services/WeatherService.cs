@@ -24,9 +24,12 @@ public class WeatherService(
 
             logger.Debug("Import: Getting weather data from Ambient Weather.");
             var deviceData = await ambientWeatherRepository.GetDeviceDataAsync(macAddress, minDate);
+
+            if(deviceData.Length == 0) break;
+
             minDate = deviceData.Min(x => x.DateUtc) - 1;
 
-            if (deviceData.Length == 0 || originalMinDate == minDate) break;
+            if (originalMinDate == minDate) break;
 
 
             var filtered = deviceData.Where(x => x.DateUtc > lastSavedDate);
