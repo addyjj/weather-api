@@ -1,8 +1,8 @@
-﻿using Weather.Core.Domain;
+using Weather.Core.Domain;
 using Weather.Core.Interfaces;
-using Weather.Infrastructure.Entity.Contexts;
+using Weather.Infrastructure.Data.Contexts;
 
-namespace Weather.Infrastructure.Entity;
+namespace Weather.Infrastructure.Data.Repositories;
 
 public class WeatherDataRepository(WeatherContext context) : IWeatherDataRepository
 {

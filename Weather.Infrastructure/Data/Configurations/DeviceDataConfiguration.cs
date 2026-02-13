@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Weather.Core.Domain;
 
-namespace Weather.Infrastructure.Entity.Mappings;
+namespace Weather.Infrastructure.Data.Configurations;
 
-internal class DeviceDataMap : IEntityTypeConfiguration<DeviceData>
+public class DeviceDataConfiguration : IEntityTypeConfiguration<DeviceData>
 {
     public void Configure(EntityTypeBuilder<DeviceData> builder)
     {

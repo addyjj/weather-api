@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Weather.Infrastructure.Entity.Contexts;
+using Weather.Infrastructure.Data.Contexts;
 
 namespace Weather.WebApi.HealthChecks;
 

@@ -2,13 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Refit;
 using Weather.Core.Interfaces;
 using Weather.Core.Options;
 using Weather.Core.Services;
-using Weather.Infrastructure.Entity;
-using Weather.Infrastructure.Entity.Contexts;
-using Weather.Infrastructure.Rest;
+using Weather.Infrastructure.Extensions;
 
 // Build IConfiguration
 var configBuilder = new ConfigurationBuilder()
@@ -21,41 +18,15 @@ configBuilder.AddUserSecrets<Program>();
 
 var config = configBuilder.Build();
 
+
 // Create and configure services
 var services = new ServiceCollection();
 
-// Configure options
-services.Configure<AmbientWeatherOptions>(config.GetSection("Ambient"));
+// Add Infrastructure services (Database, Repositories, HTTP clients)
+services.AddInfrastructureServices(config);
 
-services.Configure<DatabaseOptions>(options =>
-{
-    options.ConnectionString = config.GetConnectionString("sql") ?? "";
-});
-
-// Context
-services.AddScoped<WeatherContext>();
-
-// Services
+// Add Core services
 services.AddScoped<IWeatherService, WeatherService>();
-
-// Repositories
-services.AddScoped<IAmbientWeatherRepository, AmbientWeatherRepository>();
-services.AddScoped<IWeatherDataRepository, WeatherDataRepository>();
-
-// Options
-services.Configure<AmbientWeatherOptions>(
-    config.GetSection("Ambient"));
-
-// Refit Client - works for both console and web
-services.AddTransient<AmbientWeatherHttpHandler>();
-
-services.AddRefitClient<IAmbientWeatherApi>()
-    .AddHttpMessageHandler<AmbientWeatherHttpHandler>()
-    .ConfigureHttpClient((sp, c) =>
-    {
-        var options = sp.GetRequiredService<IOptions<AmbientWeatherOptions>>().Value;
-        c.BaseAddress = new Uri(options.ApiUrl);
-    });
 
 // Logger
 services.AddLogging(builder =>
@@ -63,21 +34,21 @@ services.AddLogging(builder =>
     builder.AddConfiguration(config.GetSection("Logging"));
     builder.AddConsole();
 });
+
 var serviceProvider = services.BuildServiceProvider();
 
-// Get services
-var service = serviceProvider.GetRequiredService<IWeatherService>();
-var logger = serviceProvider.GetRequiredService<ILogger<WeatherService>>();
-var ambientOptions = serviceProvider.GetRequiredService<IOptions<AmbientWeatherOptions>>().Value;
 
 try
 {
     // import data
+    var service = serviceProvider.GetRequiredService<IWeatherService>();
+    var ambientOptions = serviceProvider.GetRequiredService<IOptions<AmbientWeatherOptions>>().Value;
     await service.ImportAsync(ambientOptions.DeviceMacAddress);
     return 0;
 }
 catch (Exception ex)
 {
+    var logger = serviceProvider.GetRequiredService<ILogger<WeatherService>>();
     logger.LogError(ex, "An error occurred while importing weather data");
     return 1;
 }

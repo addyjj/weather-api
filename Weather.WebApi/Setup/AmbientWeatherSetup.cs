@@ -2,7 +2,7 @@ using Microsoft.Extensions.Options;
 using Refit;
 using Weather.Core.Interfaces;
 using Weather.Core.Options;
-using Weather.Infrastructure.Rest;
+using Weather.Infrastructure.Services.External;
 using Weather.WebApi.HealthChecks;
 
 namespace Weather.WebApi.Setup;

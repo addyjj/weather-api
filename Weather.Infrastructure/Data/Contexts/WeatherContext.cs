@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Weather.Core.Domain;
 using Weather.Core.Options;
-using Weather.Infrastructure.Entity.Mappings;
+using Weather.Infrastructure.Data.Configurations;
 
-namespace Weather.Infrastructure.Entity.Contexts;
+namespace Weather.Infrastructure.Data.Contexts;
 
 public class WeatherContext(IOptions<DatabaseOptions> options) : DbContext
 {
@@ -19,6 +19,6 @@ public class WeatherContext(IOptions<DatabaseOptions> options) : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfiguration(new DeviceDataMap());
+        modelBuilder.ApplyConfiguration(new DeviceDataConfiguration());
     }
 }

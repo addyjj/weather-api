@@ -1,8 +1,7 @@
 using Refit;
-using Weather.Core.Domain;
-using Weather.Infrastructure.Rest.Dtos;
+using Weather.Infrastructure.Services.External.Dtos;
 
-namespace Weather.Infrastructure.Rest;
+namespace Weather.Infrastructure.Services.External;
 
 public interface IAmbientWeatherApi
 {
@@ -10,7 +9,7 @@ public interface IAmbientWeatherApi
     Task<AmbientWeatherDevice[]> GetDevicesAsync(CancellationToken cancellationToken = default);
 
     [Get("/devices/{macAddress}")]
-    Task<DeviceData[]> GetDeviceDataAsync(
+    Task<AmbientWeatherDeviceDataDto[]> GetDeviceDataAsync(
         string macAddress,
         [Query] long? endDate = null,
         [Query] int? limit = null,

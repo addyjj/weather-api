@@ -1,3 +1,4 @@
+using Weather.Infrastructure.Extensions;
 using Weather.WebApi.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +11,8 @@ builder
 
 // Add services
 builder.Services.AddControllers();
-builder.Services.AddDatabase(builder.Configuration);
-builder.Services.AddAmbientWeather(builder.Configuration);
+builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddHealthCheckServices();
 builder.Services.AddCoreServices();
 builder.Services.AddCorsConfiguration();
 builder.Services.AddOpenApi();

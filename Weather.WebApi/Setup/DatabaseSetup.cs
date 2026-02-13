@@ -1,7 +1,7 @@
 using Weather.Core.Interfaces;
 using Weather.Core.Options;
-using Weather.Infrastructure.Entity;
-using Weather.Infrastructure.Entity.Contexts;
+using Weather.Infrastructure.Data.Contexts;
+using Weather.Infrastructure.Data.Repositories;
 using Weather.WebApi.HealthChecks;
 
 namespace Weather.WebApi.Setup;
