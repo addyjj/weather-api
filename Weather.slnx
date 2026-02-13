@@ -16,9 +16,5 @@
   <Project Path="Weather.Infrastructure/Weather.Infrastructure.csproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="Weather.Sql/Weather.Sql.sqlproj" Id="52b7fd31-dbbb-449d-8925-c7364a8a71cf">
-    <Build />
-    <Deploy />
-  </Project>
   <Project Path="Weather.WebApi/Weather.WebApi.csproj" />
 </Solution>

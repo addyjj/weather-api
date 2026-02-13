@@ -10,31 +10,35 @@ internal class DeviceDataMap : IEntityTypeConfiguration<DeviceDataItem>
     {
         builder.ToTable("DeviceData");
         builder.HasKey(x => x.DateUtc);
-        builder.Property(x => x.TempIn);
-        builder.Property(x => x.HumidityIn);
-        builder.Property(x => x.BaromRel);
-        builder.Property(x => x.BaromAbs);
-        builder.Property(x => x.TempOut);
-        builder.Property(x => x.BattOut);
-        builder.Property(x => x.HumidityOut);
-        builder.Property(x => x.WindDir);
-        builder.Property(x => x.WindSpeed);
-        builder.Property(x => x.WindGust);
-        builder.Property(x => x.MaxDailyGust);
-        builder.Property(x => x.HourlyRainRate);
-        builder.Property(x => x.EventRain);
-        builder.Property(x => x.DailyRain);
-        builder.Property(x => x.WeeklyRain);
-        builder.Property(x => x.MonthlyRain);
-        builder.Property(x => x.TotalRain);
-        builder.Property(x => x.SolarRadiation);
-        builder.Property(x => x.Uv);
-        builder.Property(x => x.BattCo2);
-        builder.Property(x => x.FeelsLike);
-        builder.Property(x => x.DewPoint);
-        builder.Property(x => x.FeelsLikeIn);
-        builder.Property(x => x.DewPointIn);
-        builder.Property(x => x.Loc);
-        builder.Property(x => x.Date);
+        
+        builder.Property(x => x.DateUtc)
+            .ValueGeneratedNever();
+            
+        builder.Property(x => x.TempIn).IsRequired();
+        builder.Property(x => x.HumidityIn).IsRequired();
+        builder.Property(x => x.BaromRel).IsRequired();
+        builder.Property(x => x.BaromAbs).IsRequired();
+        builder.Property(x => x.TempOut).IsRequired();
+        builder.Property(x => x.BattOut).IsRequired();
+        builder.Property(x => x.HumidityOut).IsRequired();
+        builder.Property(x => x.WindDir).IsRequired();
+        builder.Property(x => x.WindSpeed).IsRequired();
+        builder.Property(x => x.WindGust).IsRequired();
+        builder.Property(x => x.MaxDailyGust).IsRequired();
+        builder.Property(x => x.HourlyRainRate).IsRequired();
+        builder.Property(x => x.EventRain).IsRequired();
+        builder.Property(x => x.DailyRain).IsRequired();
+        builder.Property(x => x.WeeklyRain).IsRequired();
+        builder.Property(x => x.MonthlyRain).IsRequired();
+        builder.Property(x => x.TotalRain).IsRequired();
+        builder.Property(x => x.SolarRadiation).IsRequired();
+        builder.Property(x => x.Uv).IsRequired();
+        builder.Property(x => x.BattCo2).IsRequired();
+        builder.Property(x => x.FeelsLike).IsRequired();
+        builder.Property(x => x.DewPoint).IsRequired();
+        builder.Property(x => x.FeelsLikeIn).IsRequired();
+        builder.Property(x => x.DewPointIn).IsRequired();
+        builder.Property(x => x.Loc).IsRequired().HasMaxLength(100);
+        builder.Property(x => x.Date).IsRequired();
     }
 }
