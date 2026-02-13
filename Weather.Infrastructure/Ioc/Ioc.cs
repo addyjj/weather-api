@@ -1,4 +1,4 @@
-﻿using Autofac;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Refit;
 using Weather.Core.Domain;
@@ -10,42 +10,30 @@ using Weather.Infrastructure.Rest;
 
 namespace Weather.Infrastructure.Ioc;
 
-public class Ioc
+public static class Ioc
 {
-    public static IContainer CreateContainer(AppConfig config)
+    public static IServiceCollection RegisterServices(this IServiceCollection services, AppConfig config)
     {
-        var builder = new ContainerBuilder();
-
         // Config
-        builder.RegisterInstance(config).As<AppConfig>();
-
-        // Http Client
-        var httpClient = new HttpClient
-        {
-            BaseAddress = config.AmbientWeatherApiUrl
-        };
-
-        builder.RegisterInstance(httpClient).As<HttpClient>().SingleInstance();
+        services.AddSingleton(config);
 
         // Context
-        builder.RegisterType<WeatherContext>().AsSelf();
+        services.AddScoped<WeatherContext>();
 
         // Services
-        builder.RegisterType<WeatherService>().As<IWeatherService>();
+        services.AddScoped<IWeatherService, WeatherService>();
 
         // Repositories
-        var ambientWeatherApi = RestService.For<IAmbientWeatherApi>(httpClient);
-        builder.RegisterInstance(ambientWeatherApi).As<IAmbientWeatherApi>();
-        builder.RegisterType<AmbientWeatherRepository>().As<IAmbientWeatherRepository>();
-        builder.RegisterType<WeatherDataRepository>().As<IWeatherDataRepository>();
+        services.AddScoped<IAmbientWeatherRepository, AmbientWeatherRepository>();
+        services.AddScoped<IWeatherDataRepository, WeatherDataRepository>();
 
-        // Logger - Register ILogger<T> factory with Console provider
-        builder.Register(c =>
-        {
-            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-            return loggerFactory.CreateLogger<WeatherService>();
-        }).SingleInstance();
+        // Refit Client - works for both console and web
+        services.AddRefitClient<IAmbientWeatherApi>()
+            .ConfigureHttpClient((sp, c) => c.BaseAddress = config.AmbientWeatherApiUrl);
 
-        return builder.Build();
+        // Logger
+        services.AddLogging(builder => builder.AddConsole());
+
+        return services;
     }
 }

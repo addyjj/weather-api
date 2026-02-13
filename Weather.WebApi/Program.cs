@@ -1,13 +1,8 @@
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using Refit;
 using Weather.Core.Domain;
-using Weather.Core.Interfaces;
-using Weather.Core.Services;
-using Weather.Infrastructure.Entity;
-using Weather.Infrastructure.Entity.Contexts;
-using Weather.Infrastructure.Rest;
+using Weather.Infrastructure.Ioc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +11,8 @@ builder
     .Configuration
     .AddUserSecrets<Program>(true)
     .AddEnvironmentVariables();
+
+var appConfig = new AppConfig(builder.Configuration);
 
 // Add services to the container.
 builder.Services
@@ -26,6 +23,13 @@ builder.Services
         opt.Select().Count().Filter().OrderBy().SetMaxTop(100);
     });
 
+// Register services using extension method
+builder.Services.RegisterServices(appConfig);
+
+// Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 static IEdmModel GetEdmModel()
 {
     var builder = new ODataConventionModelBuilder();
@@ -34,32 +38,6 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<DeviceDataItem>("History");
     return builder.GetEdmModel();
 }
-
-// Config
-builder.Services.AddSingleton<AppConfig>();
-
-// Context
-builder.Services.AddTransient<WeatherContext>();
-
-// Services
-builder.Services.AddTransient<IWeatherService, WeatherService>();
-
-// Repositories
-builder.Services.AddRefitClient<IAmbientWeatherApi>()
-    .ConfigureHttpClient((sp, c) =>
-    {
-        var config = sp.GetRequiredService<AppConfig>();
-        c.BaseAddress = config.AmbientWeatherApiUrl;
-    });
-builder.Services.AddTransient<IAmbientWeatherRepository, AmbientWeatherRepository>();
-builder.Services.AddTransient<IWeatherDataRepository, WeatherDataRepository>();
-
-// HTTP Client
-builder.Services.AddHttpClient();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

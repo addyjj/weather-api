@@ -1,5 +1,5 @@
-﻿using Autofac;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Weather.Core.Domain;
 using Weather.Core.Interfaces;
@@ -20,17 +20,14 @@ var config = configBuilder.Build();
 // Create typed config
 var appConfig = new AppConfig(config);
 
-// create container
-var container = Ioc.CreateContainer(appConfig);
+// Create and configure services
+var services = new ServiceCollection();
+services.RegisterServices(appConfig);
+var serviceProvider = services.BuildServiceProvider();
 
-// begin Ioc scope
-await using var scope = container.BeginLifetimeScope();
-
-// get weather service
-var service = scope.Resolve<IWeatherService>();
-
-// get logger
-var logger = scope.Resolve<ILogger<WeatherService>>();
+// Get services
+var service = serviceProvider.GetRequiredService<IWeatherService>();
+var logger = serviceProvider.GetRequiredService<ILogger<WeatherService>>();
 
 try
 {
