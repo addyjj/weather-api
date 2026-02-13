@@ -1,7 +1,9 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Weather.Core.Domain;
 using Weather.Core.Interfaces;
+using Weather.Core.Services;
 using Weather.Infrastructure.Ioc;
 
 // Build IConfiguration
@@ -28,7 +30,7 @@ await using var scope = container.BeginLifetimeScope();
 var service = scope.Resolve<IWeatherService>();
 
 // get logger
-var logger = scope.Resolve<ILogger>();
+var logger = scope.Resolve<ILogger<WeatherService>>();
 
 try
 {
@@ -38,10 +40,6 @@ try
 }
 catch (Exception ex)
 {
-    logger.Error(ex.Message, ex);
+    logger.LogError(ex, ex.Message);
     return 1;
-}
-finally
-{
-    logger.CloseAndFlush();
 }

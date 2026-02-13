@@ -5,11 +5,9 @@ using Refit;
 using Weather.Core.Domain;
 using Weather.Core.Interfaces;
 using Weather.Core.Services;
-using Weather.Infrastructure;
 using Weather.Infrastructure.Entity;
 using Weather.Infrastructure.Entity.Contexts;
 using Weather.Infrastructure.Rest;
-using ILogger = Weather.Core.Interfaces.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,9 +53,6 @@ builder.Services.AddRefitClient<IAmbientWeatherApi>()
     });
 builder.Services.AddTransient<IAmbientWeatherRepository, AmbientWeatherRepository>();
 builder.Services.AddTransient<IWeatherDataRepository, WeatherDataRepository>();
-
-// Logger
-builder.Services.AddSingleton<ILogger, Logger>();
 
 // HTTP Client
 builder.Services.AddHttpClient();
