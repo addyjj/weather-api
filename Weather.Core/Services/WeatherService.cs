@@ -36,7 +36,8 @@ public class WeatherService(
             var filtered = deviceData.Where(x => x.DateUtc > lastSavedDate);
             toAdd.AddRange(filtered);
 
-            Thread.Sleep(4000);
+            // Adding a delay because the API has a rate limit.
+            await Task.Delay(4000);
         } while (minDate > lastSavedDate);
 
         logger.LogDebug("Import: Adding {Count} new records.", toAdd.Count);
