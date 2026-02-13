@@ -10,10 +10,10 @@ internal class DeviceDataMap : IEntityTypeConfiguration<DeviceDataItem>
     {
         builder.ToTable("DeviceData");
         builder.HasKey(x => x.DateUtc);
-        
+
         builder.Property(x => x.DateUtc)
             .ValueGeneratedNever();
-            
+
         builder.Property(x => x.TempIn).IsRequired();
         builder.Property(x => x.HumidityIn).IsRequired();
         builder.Property(x => x.BaromRel).IsRequired();
