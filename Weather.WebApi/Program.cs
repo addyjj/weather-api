@@ -9,10 +9,10 @@ builder
     .AddEnvironmentVariables();
 
 // Add services
+builder.Services.AddControllers();
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddAmbientWeather(builder.Configuration);
 builder.Services.AddCoreServices();
-builder.Services.AddODataConfiguration();
 builder.Services.AddCorsConfiguration();
 builder.Services.AddOpenApi();
 
