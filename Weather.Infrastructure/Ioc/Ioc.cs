@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Refit;
-using Weather.Core.Domain;
 using Weather.Core.Interfaces;
+using Weather.Core.Options;
 using Weather.Core.Services;
 using Weather.Infrastructure.Entity;
 using Weather.Infrastructure.Entity.Contexts;
@@ -12,11 +13,8 @@ namespace Weather.Infrastructure.Ioc;
 
 public static class Ioc
 {
-    public static IServiceCollection RegisterServices(this IServiceCollection services, AppConfig config)
+    public static IServiceCollection RegisterServices(this IServiceCollection services)
     {
-        // Config
-        services.AddSingleton(config);
-
         // Context
         services.AddScoped<WeatherContext>();
 
@@ -29,7 +27,11 @@ public static class Ioc
 
         // Refit Client - works for both console and web
         services.AddRefitClient<IAmbientWeatherApi>()
-            .ConfigureHttpClient((sp, c) => c.BaseAddress = config.AmbientWeatherApiUrl);
+            .ConfigureHttpClient((sp, c) =>
+            {
+                var options = sp.GetRequiredService<IOptions<AmbientWeatherOptions>>().Value;
+                c.BaseAddress = new Uri(options.ApiUrl);
+            });
 
         // Logger
         services.AddLogging(builder => builder.AddConsole());

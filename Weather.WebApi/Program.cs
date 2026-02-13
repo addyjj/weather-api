@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Weather.Core.Domain;
+using Weather.Core.Options;
 using Weather.Infrastructure.Ioc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,14 @@ builder
     .AddUserSecrets<Program>(true)
     .AddEnvironmentVariables();
 
-var appConfig = new AppConfig(builder.Configuration);
+// Configure options
+builder.Services.Configure<AmbientWeatherOptions>(
+    builder.Configuration.GetSection("Ambient"));
+
+builder.Services.Configure<DatabaseOptions>(options =>
+{
+    options.ConnectionString = builder.Configuration.GetConnectionString("sql") ?? "";
+});
 
 // Add services to the container.
 builder.Services
@@ -24,7 +32,7 @@ builder.Services
     });
 
 // Register services using extension method
-builder.Services.RegisterServices(appConfig);
+builder.Services.RegisterServices();
 
 // Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
