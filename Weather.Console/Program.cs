@@ -58,7 +58,11 @@ services.AddRefitClient<IAmbientWeatherApi>()
     });
 
 // Logger
-services.AddLogging(builder => builder.AddConsole());
+services.AddLogging(builder =>
+{
+    builder.AddConfiguration(config.GetSection("Logging"));
+    builder.AddConsole();
+});
 var serviceProvider = services.BuildServiceProvider();
 
 // Get services

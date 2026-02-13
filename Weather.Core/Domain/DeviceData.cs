@@ -156,7 +156,9 @@ public class DeviceData
     [JsonPropertyName("dewPointin")]
     public double DewPointIn { get; set; }
 
-    [JsonPropertyName("loc")] public string Loc { get; set; } = "";
+    [JsonPropertyName("loc")]
+    public string Loc { get; set; } = "";
 
-    [JsonPropertyName("date")] public DateTime Date { get; set; }
+    [JsonPropertyName("date")]
+    public DateTime Date { get; set; }
 }

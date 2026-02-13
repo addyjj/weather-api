@@ -28,7 +28,7 @@ public class WeatherService(
         {
             var originalMinDate = minDate;
 
-            logger.LogDebug("Import: Getting weather data from Ambient Weather.");
+            logger.LogInformation("Import: Getting weather data from Ambient Weather.");
             var deviceData = await ambientWeatherRepository.GetDeviceDataAsync(macAddress, minDate);
 
             if (deviceData.Length == 0) break;
@@ -45,7 +45,7 @@ public class WeatherService(
             await Task.Delay(4000);
         } while (minDate > lastSavedDate);
 
-        logger.LogDebug("Import: Adding {Count} new records.", toAdd.Count);
+        logger.LogInformation("Import: Adding {Count} new records.", toAdd.Count);
 
         await weatherDataRepository.AddDeviceDataAsync(toAdd);
 
