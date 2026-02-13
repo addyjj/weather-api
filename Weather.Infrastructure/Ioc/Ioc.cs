@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Refit;
 using Weather.Core.Domain;
 using Weather.Core.Interfaces;
 using Weather.Core.Services;
@@ -33,6 +34,8 @@ public class Ioc
         builder.RegisterType<WeatherService>().As<IWeatherService>();
 
         // Repositories
+        var ambientWeatherApi = RestService.For<IAmbientWeatherApi>(httpClient);
+        builder.RegisterInstance(ambientWeatherApi).As<IAmbientWeatherApi>();
         builder.RegisterType<AmbientWeatherRepository>().As<IAmbientWeatherRepository>();
         builder.RegisterType<WeatherDataRepository>().As<IWeatherDataRepository>();
 

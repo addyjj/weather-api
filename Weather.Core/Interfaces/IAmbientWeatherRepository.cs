@@ -4,5 +4,5 @@ namespace Weather.Core.Interfaces;
 
 public interface IAmbientWeatherRepository
 {
-    Task<DeviceDataItem[]> GetDeviceDataAsync(string macAddress, long endDate = 0, int limit = 0);
+    Task<DeviceDataItem[]> GetDeviceDataAsync(string macAddress, long? endDate = null, int? limit = null, CancellationToken cancellationToken = default);
 }

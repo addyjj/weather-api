@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
+using Refit;
 using Weather.Core.Domain;
 using Weather.Core.Interfaces;
 using Weather.Core.Services;
@@ -46,6 +47,12 @@ builder.Services.AddTransient<WeatherContext>();
 builder.Services.AddTransient<IWeatherService, WeatherService>();
 
 // Repositories
+builder.Services.AddRefitClient<IAmbientWeatherApi>()
+    .ConfigureHttpClient((sp, c) =>
+    {
+        var config = sp.GetRequiredService<AppConfig>();
+        c.BaseAddress = config.AmbientWeatherApiUrl;
+    });
 builder.Services.AddTransient<IAmbientWeatherRepository, AmbientWeatherRepository>();
 builder.Services.AddTransient<IWeatherDataRepository, WeatherDataRepository>();
 
