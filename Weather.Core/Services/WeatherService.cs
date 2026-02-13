@@ -39,10 +39,10 @@ public class WeatherService(
             Thread.Sleep(4000);
         } while (minDate > lastSavedDate);
 
-        logger.LogDebug($"Import: Adding {toAdd.Count} new records.");
+        logger.LogDebug("Import: Adding {Count} new records.", toAdd.Count);
 
         await weatherDataRepository.AddDeviceDataAsync(toAdd);
 
-        logger.LogInformation($"Import: Successfully imported {toAdd.Count} new records.");
+        logger.LogInformation("Import: Successfully imported {Count} new records.", toAdd.Count);
     }
 }
