@@ -29,7 +29,7 @@ services.Configure<DatabaseOptions>(options =>
     options.ConnectionString = config.GetConnectionString("sql") ?? "";
 });
 
-services.RegisterServices();
+services.RegisterServices(config);
 var serviceProvider = services.BuildServiceProvider();
 
 // Get services

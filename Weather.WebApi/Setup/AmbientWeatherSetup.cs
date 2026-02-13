@@ -16,7 +16,10 @@ public static class AmbientWeatherSetup
 
         services.AddScoped<IAmbientWeatherRepository, AmbientWeatherRepository>();
 
+        services.AddTransient<AmbientWeatherHttpHandler>();
+
         services.AddRefitClient<IAmbientWeatherApi>()
+            .AddHttpMessageHandler<AmbientWeatherHttpHandler>()
             .ConfigureHttpClient((sp, c) =>
             {
                 var options = sp.GetRequiredService<IOptions<AmbientWeatherOptions>>().Value;
