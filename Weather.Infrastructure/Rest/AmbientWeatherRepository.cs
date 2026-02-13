@@ -9,4 +9,11 @@ public class AmbientWeatherRepository(IAmbientWeatherApi api) : IAmbientWeatherR
     {
         return api.GetDeviceDataAsync(macAddress, endDate, limit, cancellationToken);
     }
+
+    public async Task<List<Device>> GetDevicesAsync(CancellationToken cancellationToken)
+    {
+        var devices = await api.GetDevicesAsync(cancellationToken);
+
+        return [.. devices.Select(d => d.ToDomain())];
+    }
 }

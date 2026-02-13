@@ -1,10 +1,14 @@
 using Refit;
 using Weather.Core.Domain;
+using Weather.Infrastructure.Rest.Dtos;
 
 namespace Weather.Infrastructure.Rest;
 
 public interface IAmbientWeatherApi
 {
+    [Get("/devices")]
+    Task<AmbientWeatherDevice[]> GetDevicesAsync(CancellationToken cancellationToken = default);
+
     [Get("/devices/{macAddress}")]
     Task<DeviceDataItem[]> GetDeviceDataAsync(
         string macAddress,

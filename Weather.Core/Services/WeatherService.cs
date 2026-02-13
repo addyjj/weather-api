@@ -10,6 +10,11 @@ public class WeatherService(
     ILogger<WeatherService> logger)
     : IWeatherService
 {
+    public Task<List<Device>> GetDevicesAsync(CancellationToken cancellationToken = default)
+    {
+        return ambientWeatherRepository.GetDevicesAsync(cancellationToken);
+    }
+
     public async Task ImportAsync(string macAddress)
     {
         logger.LogInformation("Import: Importing weather data.");
