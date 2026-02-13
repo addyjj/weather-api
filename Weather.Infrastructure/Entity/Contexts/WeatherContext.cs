@@ -8,7 +8,7 @@ namespace Weather.Infrastructure.Entity.Contexts;
 
 public class WeatherContext(IOptions<DatabaseOptions> options) : DbContext
 {
-    public DbSet<DeviceDataItem> DeviceData { get; set; }
+    public DbSet<DeviceData> DeviceData { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -4,9 +4,9 @@ using Weather.Core.Domain;
 
 namespace Weather.Infrastructure.Entity.Mappings;
 
-internal class DeviceDataMap : IEntityTypeConfiguration<DeviceDataItem>
+internal class DeviceDataMap : IEntityTypeConfiguration<DeviceData>
 {
-    public void Configure(EntityTypeBuilder<DeviceDataItem> builder)
+    public void Configure(EntityTypeBuilder<DeviceData> builder)
     {
         builder.ToTable("DeviceData");
         builder.HasKey(x => x.DateUtc);

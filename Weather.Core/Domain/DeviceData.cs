@@ -2,7 +2,7 @@
 
 namespace Weather.Core.Domain;
 
-public class DeviceDataItem
+public class DeviceData
 {
     /// <summary>
     ///     Datetime, int (milliseconds from 01-01-1970, rounded down to nearest minute on server)

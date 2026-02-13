@@ -19,7 +19,7 @@ public class WeatherService(
     {
         logger.LogInformation("Import: Importing weather data.");
 
-        var toAdd = new List<DeviceDataItem>();
+        var toAdd = new List<DeviceData>();
 
         var lastSavedDate = weatherDataRepository.GetMaxDate();
         var minDate = DateTimeOffset.Now.ToUnixTimeMilliseconds();

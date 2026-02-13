@@ -10,7 +10,7 @@ public interface IAmbientWeatherApi
     Task<AmbientWeatherDevice[]> GetDevicesAsync(CancellationToken cancellationToken = default);
 
     [Get("/devices/{macAddress}")]
-    Task<DeviceDataItem[]> GetDeviceDataAsync(
+    Task<DeviceData[]> GetDeviceDataAsync(
         string macAddress,
         [Query] long? endDate = null,
         [Query] int? limit = null,

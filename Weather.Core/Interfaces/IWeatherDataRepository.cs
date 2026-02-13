@@ -6,5 +6,5 @@ public interface IWeatherDataRepository
 {
     long GetMaxDate();
     long GetMinDate();
-    Task AddDeviceDataAsync(IEnumerable<DeviceDataItem> items);
+    Task AddDeviceDataAsync(IEnumerable<DeviceData> items);
 }

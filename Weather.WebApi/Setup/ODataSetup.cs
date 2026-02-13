@@ -24,8 +24,8 @@ public static class ODataSetup
     {
         var builder = new ODataConventionModelBuilder();
         builder.EnableLowerCamelCase();
-        builder.EntityType<DeviceDataItem>().HasKey(x => x.DateUtc);
-        builder.EntitySet<DeviceDataItem>("History");
+        builder.EntityType<DeviceData>().HasKey(x => x.DateUtc);
+        builder.EntitySet<DeviceData>("History");
         return builder.GetEdmModel();
     }
 }

@@ -6,5 +6,5 @@ public class AmbientWeatherCoordinates
     public string? Address { get; set; }
     public string? Location { get; set; }
     public double Elevation { get; set; }
-    public AmbientWeahterGeoPoint? Geo { get; set; }
+    public AmbientWeatherGeoPoint? Geo { get; set; }
 }

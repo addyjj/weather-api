@@ -2,5 +2,5 @@
 
 public class Device
 {
-    public DeviceDataItem? LatestData { get; set; }
+    public DeviceData? LatestData { get; set; }
 }

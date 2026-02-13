@@ -11,7 +11,7 @@ public class WeatherDataRepository(WeatherContext context) : IWeatherDataReposit
         return context.DeviceData.Any() ? context.DeviceData.Max(x => x.DateUtc) : 0;
     }
 
-    public async Task AddDeviceDataAsync(IEnumerable<DeviceDataItem> items)
+    public async Task AddDeviceDataAsync(IEnumerable<DeviceData> items)
     {
         context.DeviceData.AddRange(items);
         await context.SaveChangesAsync();
