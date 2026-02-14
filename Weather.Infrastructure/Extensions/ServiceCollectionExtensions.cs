@@ -7,6 +7,7 @@ using Weather.Core.Interfaces;
 using Weather.Core.Options;
 using Weather.Infrastructure.Data.Contexts;
 using Weather.Infrastructure.Data.Repositories;
+using Weather.Infrastructure.Services.Cache;
 using Weather.Infrastructure.Services.External;
 
 namespace Weather.Infrastructure.Extensions;
@@ -23,6 +24,9 @@ public static class ServiceCollectionExtensions
             options.ConnectionString = configuration.GetConnectionString("sql") ?? "";
         });
         services.Configure<AmbientWeatherOptions>(configuration.GetSection("Ambient"));
+
+        services.AddMemoryCache();
+        services.AddSingleton<ICacheService, MemoryCacheService>();
 
         // Add DbContext
         services.AddDbContext<WeatherContext>();

@@ -7,17 +7,32 @@ namespace Weather.Core.Services;
 public class WeatherService(
     IAmbientWeatherRepository ambientWeatherRepository,
     IWeatherDataRepository weatherDataRepository,
-    ILogger<WeatherService> logger)
+    ILogger<WeatherService> logger,
+    ICacheService cacheService)
     : IWeatherService
 {
+    private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(5);
+
     public Task<List<Device>> GetDevicesAsync(CancellationToken cancellationToken = default)
     {
-        return ambientWeatherRepository.GetDevicesAsync(cancellationToken);
+        return cacheService.GetOrCreateAsync(
+            "devices",
+            ambientWeatherRepository.GetDevicesAsync,
+            CacheDuration,
+            cancellationToken);
     }
 
     public Task<DeviceData[]> GetDeviceDataAsync(string macAddress, DateTime? endDate = null, int? limit = null, CancellationToken cancellationToken = default)
     {
-        return ambientWeatherRepository.GetDeviceDataAsync(macAddress, endDate, limit, cancellationToken);
+        var endDateKey = endDate?.ToUniversalTime().ToString("O") ?? "null";
+        var limitKey = limit?.ToString() ?? "null";
+        var cacheKey = $"deviceData:{macAddress}:{endDateKey}:{limitKey}";
+
+        return cacheService.GetOrCreateAsync(
+            cacheKey,
+            ct => ambientWeatherRepository.GetDeviceDataAsync(macAddress, endDate, limit, ct),
+            CacheDuration,
+            cancellationToken);
     }
 
     public async Task ImportAsync(string macAddress)
