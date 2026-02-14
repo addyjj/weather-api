@@ -19,7 +19,7 @@ public class DevicesController(IWeatherService service) : ControllerBase
     [HttpGet("{macAddress}/data")]
     public async Task<ActionResult<List<DeviceDataResponse>>> GetDeviceDataAsync(
         string macAddress,
-        [FromQuery] long? endDate = null,
+        [FromQuery] DateTime? endDate = null,
         [FromQuery] int limit = 10,
         CancellationToken cancellationToken = default)
     {

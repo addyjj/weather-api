@@ -5,9 +5,10 @@ namespace Weather.Infrastructure.Services.External;
 
 public class AmbientWeatherRepository(IAmbientWeatherApi api) : IAmbientWeatherRepository
 {
-    public async Task<DeviceData[]> GetDeviceDataAsync(string macAddress, long? endDate = null, int? limit = null, CancellationToken cancellationToken = default)
+    public async Task<DeviceData[]> GetDeviceDataAsync(string macAddress, DateTime? endDate = null, int? limit = null, CancellationToken cancellationToken = default)
     {
-        var dtos = await api.GetDeviceDataAsync(macAddress, endDate, limit, cancellationToken);
+        var endDateUnix = endDate.HasValue ? new DateTimeOffset(endDate.Value).ToUnixTimeMilliseconds() : (long?)null;
+        var dtos = await api.GetDeviceDataAsync(macAddress, endDateUnix, limit, cancellationToken);
         return [.. dtos.Select(d => d.ToDomain())];
     }
 
