@@ -15,6 +15,11 @@ public class WeatherService(
         return ambientWeatherRepository.GetDevicesAsync(cancellationToken);
     }
 
+    public Task<DeviceData[]> GetDeviceDataAsync(string macAddress, long? endDate = null, int? limit = null, CancellationToken cancellationToken = default)
+    {
+        return ambientWeatherRepository.GetDeviceDataAsync(macAddress, endDate, limit, cancellationToken);
+    }
+
     public async Task ImportAsync(string macAddress)
     {
         logger.LogInformation("Import: Importing weather data.");

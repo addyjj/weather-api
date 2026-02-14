@@ -9,7 +9,7 @@ public class AmbientWeatherDevice
     public string MacAddress { get; set; } = string.Empty;
 
     [JsonPropertyName("lastData")]
-    public AmbientWeatherDeviceDataDto? LastData { get; set; }
+    public AmbientWeatherDeviceData? LastData { get; set; }
 
     [JsonPropertyName("info")]
     public AmbientWeatherDeviceInfo? Info { get; set; }
@@ -21,6 +21,7 @@ public class AmbientWeatherDevice
     {
         return new Device
         {
+            MacAddress = MacAddress,
             LatestData = LastData?.ToDomain()
         };
     }

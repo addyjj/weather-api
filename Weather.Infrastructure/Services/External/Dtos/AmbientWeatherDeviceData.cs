@@ -3,7 +3,7 @@ using Weather.Core.Domain;
 
 namespace Weather.Infrastructure.Services.External.Dtos;
 
-public class AmbientWeatherDeviceDataDto
+public class AmbientWeatherDeviceData
 {
     [JsonPropertyName("dateutc")]
     public long DateUtc { get; set; }

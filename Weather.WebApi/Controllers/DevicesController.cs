@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Weather.Core.Domain;
 using Weather.Core.Interfaces;
+using Weather.WebApi.Dtos;
 
 namespace Weather.WebApi.Controllers;
 
@@ -9,9 +9,22 @@ namespace Weather.WebApi.Controllers;
 public class DevicesController(IWeatherService service) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<List<Device>>> GetAsync(CancellationToken cancellationToken = default)
+    public async Task<ActionResult<List<DeviceResponse>>> GetAsync(CancellationToken cancellationToken = default)
     {
         var devices = await service.GetDevicesAsync(cancellationToken);
-        return Ok(devices);
+        var response = devices.Select(DeviceResponse.FromDomain).ToList();
+        return Ok(response);
+    }
+
+    [HttpGet("{macAddress}/data")]
+    public async Task<ActionResult<List<DeviceDataResponse>>> GetDeviceDataAsync(
+        string macAddress,
+        [FromQuery] long? endDate = null,
+        [FromQuery] int limit = 10,
+        CancellationToken cancellationToken = default)
+    {
+        var data = await service.GetDeviceDataAsync(macAddress, endDate, limit, cancellationToken);
+        var response = data.Select(DeviceDataResponse.FromDomain).ToList();
+        return Ok(response);
     }
 }
