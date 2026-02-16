@@ -21,6 +21,8 @@ public class AmbientWeatherDevice
     {
         return new Device
         {
+            Name = Info?.Name,
+            Location = Info?.Coords?.Location,
             MacAddress = MacAddress,
             LatestData = LastData?.ToDomain()
         };

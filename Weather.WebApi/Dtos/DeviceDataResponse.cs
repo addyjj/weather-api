@@ -9,10 +9,14 @@ public class DeviceDataResponse
     public double TempOut { get; set; }
     public int HumidityOut { get; set; }
     public int WindDir { get; set; }
+    public double WindSpeed { get; set; }
+    public double WindGust { get; set; }
     public double EventRain { get; set; }
-    public int Uv { get; set; }
+    public double DailyRain { get; set; }
+    public int UvIndex { get; set; }
     public double FeelsLike { get; set; }
     public double DewPoint { get; set; }
+    public double SolarRadiation { get; set; }
 
     public static DeviceDataResponse FromDomain(DeviceData data) => new()
     {
@@ -21,8 +25,12 @@ public class DeviceDataResponse
         TempOut = data.TempOut,
         HumidityOut = data.HumidityOut,
         WindDir = data.WindDir,
+        WindSpeed = data.WindSpeed,
+        WindGust = data.WindGust,
         EventRain = data.EventRain,
-        Uv = data.Uv,
+        DailyRain = data.DailyRain,
+        UvIndex = data.Uv,
+        SolarRadiation = data.SolarRadiation,
         FeelsLike = data.FeelsLike,
         DewPoint = data.DewPoint
     };
