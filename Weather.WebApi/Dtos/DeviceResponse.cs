@@ -6,14 +6,12 @@ public class DeviceResponse
 {
     public string Name { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
-    public string MacAddress { get; set; } = string.Empty;
     public DeviceDataResponse LatestData { get; set; } = new();
 
     public static DeviceResponse FromDomain(Device device) => new()
     {
         Name = device.Name ?? string.Empty,
         Location = device.Location ?? string.Empty,
-        MacAddress = device.MacAddress ?? string.Empty,
         LatestData = DeviceDataResponse.FromDomain(device.LatestData ?? new())
     };
 }

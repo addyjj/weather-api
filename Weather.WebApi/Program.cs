@@ -14,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddHealthCheckServices();
 builder.Services.AddCoreServices();
-builder.Services.AddCorsConfiguration();
+builder.Services.AddCorsConfiguration(builder.Configuration);
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
