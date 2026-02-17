@@ -5,7 +5,7 @@
   </Configurations>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
-    <File Path="azure-pipelines.yml" />
+    <File Path=".github/workflows/main_weather-api.yml" />
   </Folder>
   <Project Path="Weather.Console/Weather.Console.csproj">
     <Platform Solution="*|x64" Project="x64" />
