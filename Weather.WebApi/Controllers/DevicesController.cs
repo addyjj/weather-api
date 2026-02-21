@@ -24,7 +24,7 @@ public class DevicesController(IWeatherService service) : ControllerBase
         CancellationToken cancellationToken = default)
     {
         var data = await service.GetDeviceDataAsync(macAddress, endDate, limit, cancellationToken);
-        var response = data.Select(DeviceDataResponse.FromDomain).ToList();
+        var response = data.Select(d => new DeviceDataResponse(d)).ToList();
         return Ok(response);
     }
 }

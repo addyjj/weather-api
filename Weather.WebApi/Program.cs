@@ -1,4 +1,6 @@
 using Weather.Infrastructure.Extensions;
+using Weather.WebApi.HostedServices;
+using Weather.WebApi.Hubs;
 using Weather.WebApi.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,8 @@ builder.Services.AddHealthCheckServices();
 builder.Services.AddCoreServices();
 builder.Services.AddCorsConfiguration(builder.Configuration);
 builder.Services.AddOpenApi();
+builder.Services.AddSignalR();
+builder.Services.AddHostedService<AmbientWeatherService>();
 
 var app = builder.Build();
 
@@ -26,5 +30,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHealthCheckEndpoints();
+app.MapHub<WeatherHub>("/weatherHub");
 
 app.Run();

@@ -12,6 +12,6 @@ public class DeviceResponse
     {
         Name = device.Name ?? string.Empty,
         Location = device.Location ?? string.Empty,
-        LatestData = DeviceDataResponse.FromDomain(device.LatestData ?? new())
+        LatestData = new(device.LatestData ?? new())
     };
 }
