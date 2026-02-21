@@ -8,7 +8,22 @@ public static class CorsSetup
     public static IServiceCollection AddCorsConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<CorsOptions>(configuration.GetSection("Cors"));
-        services.AddCors();
+
+        var corsOptions = configuration.GetSection("Cors").Get<CorsOptions>() ?? new CorsOptions();
+
+        services.AddCors(options =>
+        {
+            if (corsOptions.AllowedOrigins.Length > 0)
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins(corsOptions.AllowedOrigins);
+                    policy.AllowAnyMethod();
+                    policy.AllowAnyHeader();
+                });
+            }
+        });
+
         return services;
     }
 
@@ -18,12 +33,7 @@ public static class CorsSetup
 
         if (corsOptions.AllowedOrigins.Length > 0)
         {
-            app.UseCors(policy =>
-            {
-                policy.WithOrigins(corsOptions.AllowedOrigins);
-                policy.AllowAnyMethod();
-                policy.AllowAnyHeader();
-            });
+            app.UseCors();
         }
 
         return app;

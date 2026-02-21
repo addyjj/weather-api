@@ -30,6 +30,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHealthCheckEndpoints();
-app.MapHub<WeatherHub>("/weatherHub");
+app.MapHub<WeatherHub>("/weatherHub").RequireCors();
 
 app.Run();
