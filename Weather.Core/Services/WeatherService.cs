@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Weather.Core.Domain;
 using Weather.Core.Interfaces;
 
@@ -13,6 +15,7 @@ public class WeatherService(
 {
     private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(5);
 
+    [Description("Gets the current users weather devices along with its most recent data.")]
     public Task<List<Device>> GetDevicesAsync(CancellationToken cancellationToken = default)
     {
         return cacheService.GetOrCreateAsync(
@@ -22,7 +25,19 @@ public class WeatherService(
             cancellationToken);
     }
 
-    public Task<DeviceData[]> GetDeviceDataAsync(string macAddress, DateTime? endDate = null, int? limit = null, CancellationToken cancellationToken = default)
+    [Description("Gets the weather data for a specific device. Optionally, you can specify an end date and limit the number of records returned.")]
+    public Task<DeviceData[]> GetDeviceDataAsync(
+
+        [Description("MAC address of the device to retrieve data for.")]
+        string macAddress,
+
+        [Description("Only return records with a date less than or equal to this value.")]
+        DateTime? endDate = null,
+
+        [Description("Number of records to return. Max"), Range(1,100)]
+        int? limit = null,
+
+        CancellationToken cancellationToken = default)
     {
         var endDateKey = endDate?.ToUniversalTime().ToString("O") ?? "null";
         var limitKey = limit?.ToString() ?? "null";
